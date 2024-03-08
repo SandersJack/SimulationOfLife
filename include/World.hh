@@ -9,9 +9,14 @@ class World {
         World(int gridsize);
         ~World();
 
+        void setElement(int x, int y, WObject* obj);
+        WObject* GetElement(int x, int y){return fGrid[x][y];}
+
+        void displayGrid() const;
+
     private:
 
-        WObject **grid;
+        WObject* **fGrid;
         int fGridSize;
         
 };

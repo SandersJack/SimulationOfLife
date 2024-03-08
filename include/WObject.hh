@@ -5,9 +5,13 @@ class WObject {
 
     public:
         WObject();
-        ~WObject();
+        virtual ~WObject() {}
 
         virtual const char* className() const {return "WObject";}
+
+        
+        
+        bool operator==(const WObject& other) const {return this == &other;}
 
     private:
     

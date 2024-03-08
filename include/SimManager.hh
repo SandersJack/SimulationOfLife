@@ -8,7 +8,7 @@ class SimManager {
         SimManager();
         ~SimManager();
 
-        void Init();
+        void Init(int numOrganisms);
         void Step();
 
         void SetGridSize(int val){fGridSize = val;}

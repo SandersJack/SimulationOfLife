@@ -3,11 +3,11 @@
 
 #include "WObject.hh"
 
-class Orgainism: public WObject {
+class Organism: public WObject {
 
     public:
-        Orgainism();
-        ~Orgainism();
+        Organism();
+        ~Organism();
 
         const char* className() const override {return "Organism";}
         

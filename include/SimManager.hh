@@ -1,15 +1,24 @@
 #ifndef SimManager_H
 #define SimManager_H 
 
+#include "World.hh"
+
 class SimManager {
     public:
         SimManager();
         ~SimManager();
 
-        static SimManager *GetInstance();
+        void Init();
+        void Step();
 
+        void SetGridSize(int val){fGridSize = val;}
+
+        static SimManager *GetInstance();
     private:
         static SimManager *fInstance;
+        
+        int fGridSize;
+        World *fWorld;
 };
 
 #endif

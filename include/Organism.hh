@@ -1,7 +1,9 @@
 #ifndef Organism_H
 #define Organism_H
 
-class Orgainism {
+#include "WObject.hh"
+
+class Orgainism: public WObject {
 
     public:
         Orgainism();

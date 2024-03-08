@@ -16,3 +16,11 @@ SimManager *SimManager::GetInstance() {
     }
     return fInstance;
 }
+
+void SimManager::Init() {
+    fWorld = new World(fGridSize);
+}
+
+void SimManager::Step(){
+
+}

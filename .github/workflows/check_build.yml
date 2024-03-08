@@ -1,0 +1,23 @@
+name: Check Build
+
+on:
+  push:
+    branches:
+      - develop
+      - feature/*
+      - bugfix/*
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+
+      - name: Test make
+        working-directory: ./
+        run: |
+          source scripts/env.sh
+          make

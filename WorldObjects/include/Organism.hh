@@ -9,6 +9,8 @@ class Orgainism: public WObject {
         Orgainism();
         ~Orgainism();
 
+        const char* className() const override {return "Organism";}
+        
     private:
 
         int fAge;

@@ -2,6 +2,9 @@
 #define SimManager_H 
 
 #include "World.hh"
+#include "Organism.hh"
+
+#include <vector>
 
 class SimManager {
     public:
@@ -19,6 +22,8 @@ class SimManager {
         
         int fGridSize;
         World *fWorld;
+
+        std::vector<Organism*> fOrganisms;
 };
 
 #endif

@@ -2,6 +2,13 @@
 #define World_H
 
 #include "WObject.hh"
+#include "Organism.hh"
+
+#include <vector>
+
+// Forward declaration of Organism class
+class Organism;
+
 
 class World {
     
@@ -9,15 +16,25 @@ class World {
         World(int gridsize);
         ~World();
 
-        void setElement(int x, int y, WObject* obj);
+        int getGridSize(){return fGridSize;}
+
+        void setElement(WObject* obj, int x, int y);
         WObject* GetElement(int x, int y){return fGrid[x][y];}
 
+        void moveElement(WObject* obj, int x_new, int y_new);
+
         void displayGrid() const;
+
+        std::vector<Organism*> GetOrganisms(){return fOrganisms;}
+
+        bool isOccupied(int posX, int posY){return fGrid[posX][posY] != nullptr;}
 
     private:
 
         WObject* **fGrid;
         int fGridSize;
+
+        std::vector<Organism*> fOrganisms;
         
 };
 

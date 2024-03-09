@@ -5,7 +5,7 @@
 
 int main(int argc, char* argv[]){
 
-    int gridsize = 64;
+    int gridsize = 32;
 
     int numOrganisms = 10;
 
@@ -45,8 +45,9 @@ int main(int argc, char* argv[]){
     simMan->Init(numOrganisms);
 
     //First Step
-    std::cout << "Step" << std::endl;
-    simMan->Step();
+    for(int i{0}; i <10; i++){
+        simMan->Step();
+    }
 
     return 0;
 }

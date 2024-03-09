@@ -88,8 +88,9 @@ void World::removeElement(WObject* obj){
 
 void World::displayGrid() const {
     std::cout << clearScreen;
-
+    std::cout << "¦" << std::string(fGridSize*2 + 1, '-') << "¦" << std::endl;
     for (int i = 0; i < fGridSize; ++i) {
+        std::cout << "¦ ";
         for (int j = 0; j < fGridSize; ++j) {
             if (fGrid[i][j] == nullptr) {
                 std::cout << ". ";
@@ -99,9 +100,9 @@ void World::displayGrid() const {
                 }
             }
         }
-        std::cout << std::endl;
+        std::cout << "¦" << std::endl;
     }
-    std::cout << std::endl;
+    std::cout << "¦" << std::string(fGridSize*2 + 1, '-') << "¦" << std::endl;
 
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
 }
@@ -111,7 +112,6 @@ void World::step(){
     for (auto it = fWObjects.begin(); it != fWObjects.end();) {
         WObject* wo = *it;
 
-        std::cout << wo << std::endl;
         int response = wo->step();
         if(response)
             ++it;

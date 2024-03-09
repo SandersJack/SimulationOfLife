@@ -16,6 +16,8 @@ class WObject {
         
         bool operator==(const WObject& other) const {return this == &other;}
 
+        virtual int step() = 0;
+
     protected:
 
         int x, y;

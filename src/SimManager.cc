@@ -1,7 +1,7 @@
 #include "SimManager.hh"
 
 #include <cstdlib>
-
+#include <iostream>
 
 SimManager::SimManager() {
 
@@ -28,7 +28,7 @@ void SimManager::Init(int numOrganisms) {
         int y = std::rand() % fGridSize;
 
         if (fWorld->GetElement(x,y) == nullptr) {
-            fWorld->setElement(new Organism(), x,y);
+            fWorld->setElement(new Organism(*fWorld), x,y);
         } else {
             // Retry if the position is already occupied
             --i;
@@ -36,12 +36,10 @@ void SimManager::Init(int numOrganisms) {
     }
 
     fOrganisms = fWorld->GetOrganisms();
+    fWorld->displayGrid();
 }
 
 void SimManager::Step(){
+    fWorld->step();
     fWorld->displayGrid();
-
-    for(auto o : fOrganisms){
-        o->moveRandom(*fWorld);
-    }
 }

@@ -12,22 +12,38 @@ class World;
 class Organism: public WObject {
 
     public:
-        Organism();
+        Organism(World& world);
         ~Organism();
 
         const char* className() const override {return "Organism";}
 
-        void moveRandom(World& world);
-        void moveUp(World& world);
-        void moveDown(World& world);
-        void moveLeft(World& world);
-        void moveRight(World& world);
+        void moveRandom();
+        void moveUp();
+        void moveDown();
+        void moveLeft();
+        void moveRight();
+
+        void die();
+        bool isAlive() const { return fAlive; }
+
+        void removeHealth(double val);
+        void removeHunger(double val);
+
+        void setHealthLoss(double val){fHealth_loss = val;}
+
+        int step() override;
         
     private:
+
+        World &fWorld;
 
         int fAge;
         double fHunger;
         double fHealth;
+        bool fAlive;
+
+        double fHealth_loss;
+        double fHunger_loss;
 
 };
 

@@ -3,11 +3,13 @@
 
 #include "WObject.hh"
 #include "Organism.hh"
+#include "FoodItem.hh"
 
 #include <vector>
 
 // Forward declaration of Organism class
 class Organism;
+class FoodItem;
 
 
 class World {
@@ -27,6 +29,7 @@ class World {
         void displayGrid() const;
 
         std::vector<Organism*> GetOrganisms(){return fOrganisms;}
+        std::vector<FoodItem*> GetFoods() { return fFoods; }
 
         bool isOccupied(int posX, int posY){return fGrid[posX][posY] != nullptr;}
 
@@ -38,6 +41,7 @@ class World {
         int fGridSize;
 
         std::vector<Organism*> fOrganisms;
+        std::vector<FoodItem*> fFoods;
 
         std::vector<WObject*> fWObjects;
         

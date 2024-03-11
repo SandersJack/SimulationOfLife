@@ -8,6 +8,7 @@ int main(int argc, char* argv[]){
     int gridsize = 32;
 
     int numOrganisms = 10;
+    const int numFood = 50;
 
     // Parse input arguments
     for (int i = 1; i < argc; i++)
@@ -19,7 +20,7 @@ int main(int argc, char* argv[]){
                 gridsize = std::stod(argv[i + 1]);
                 i++;
             } 
-            if (strcmp(argv[i], "-nO") == 0) // GridSize
+            if (strcmp(argv[i], "-nO") == 0) // Number of organisms
             {                 
                 numOrganisms = std::stod(argv[i + 1]);
                 i++;
@@ -42,7 +43,7 @@ int main(int argc, char* argv[]){
     simMan->SetGridSize(gridsize);
     
     // Init the Simulation
-    simMan->Init(numOrganisms);
+    simMan->Init(numOrganisms, numFood);
 
     //First Step
     for(int i{0}; i <10; i++){

@@ -3,6 +3,7 @@
 
 #include "World.hh"
 #include "Organism.hh"
+#include "FoodItem.hh"
 
 #include <vector>
 
@@ -11,7 +12,7 @@ class SimManager {
         SimManager();
         ~SimManager();
 
-        void Init(int numOrganisms);
+        void Init(const int numOrganisms, const int numFood);
         void Step();
 
         void SetGridSize(int val){fGridSize = val;}
@@ -24,6 +25,7 @@ class SimManager {
         World *fWorld;
 
         std::vector<Organism*> fOrganisms;
+        std::vector<FoodItem*> fFoods;
 };
 
 #endif

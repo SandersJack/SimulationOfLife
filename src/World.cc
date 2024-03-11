@@ -45,6 +45,8 @@ void World::setElement(WObject* obj, int x, int y) {
         fWObjects.push_back(obj);
         if(strcmp(fGrid[x][y]->className(), "Organism") == 0){
             fOrganisms.push_back(static_cast<Organism*>(obj));
+        } else if(strcmp(fGrid[x][y]->className(), "FoodItem") == 0) {
+            fFoods.push_back(static_cast<FoodItem*>(obj));
         }
 
     } else {
@@ -59,6 +61,8 @@ void World::moveElement(WObject* obj, int x_new, int y_new) {
     
     if (x_new >= 0 && x_new < fGridSize && y_new >= 0 && y_new < fGridSize) {
         fGrid[x_old][y_old] = nullptr;
+        if(isOccupied(x_new, y_new))
+            removeElement(GetElement(x_new, y_new));
         fGrid[x_new][y_new] = obj;
 
         obj->SetPosition(x_new, y_new);
@@ -83,6 +87,12 @@ void World::removeElement(WObject* obj){
         if (it_ != fOrganisms.end()) {
             fOrganisms.erase(it_);
         }
+    } else if(strcmp(obj->className(), "FoodItem") == 0){
+        auto it_ = std::find_if(fFoods.begin(), fFoods.end(),
+                           [obj](FoodItem* element) { return element == obj; });
+        if (it_ != fFoods.end()) {
+            fFoods.erase(it_);
+        }
     }
 }
 
@@ -97,6 +107,8 @@ void World::displayGrid() const {
             } else {
                 if(strcmp(fGrid[i][j]->className(), "Organism") == 0){
                     std::cout << "O ";
+                } else if(strcmp(fGrid[i][j]->className(), "FoodItem") == 0) {
+                    std::cout << "F ";
                 }
             }
         }

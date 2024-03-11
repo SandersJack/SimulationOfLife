@@ -1,23 +1,23 @@
 cmake_minimum_required(VERSION 3.20)
+project(SimulationOfLife)
 
-set(PROJECT SimulationOfLife)
-
-project(${PROJECT})
-
-file(GLOB SRC
-     "src/*.cc")
-
-set(MAIN_FILE SimLife.cc)
-include_directories(include)
-
-# Set C++11 as the minimum standard
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(${PROJECT} ${MAIN_FILE} ${SRC})
+# Include directories
+include_directories(include)
+include_directories(${CMAKE_SOURCE_DIR}/WorldObjects/include)
 
-include_directories("WorldObjects/include")
-target_link_libraries(${PROJECT_NAME} WorldObjects)
+# Add subdirectories
 add_subdirectory(WorldObjects)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -Wall -Wextra -Werror -Wfatal-errors -Wshadow -pedantic -c")
+# Add your source files
+add_executable(SoL 
+  SimLife.cc
+  src/SimManager.cc
+  src/WObject.cc
+  src/World.cc
+)
+
+# Link libraries
+target_link_libraries(SoL WorldObjects)

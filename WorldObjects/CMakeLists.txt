@@ -1,8 +1,12 @@
+# Set sources
+file(GLOB SOURCES "src/*.cc")
+
+# Add headers if necessary
 include_directories(include)
 
-file(GLOB SRC "src/*.cc")
-file(GLOB INC "include/*.hh")
+# Add library
+add_library(WorldObjects ${SOURCES})
 
-include_directories(${CMAKE_SOURCE_DIR}/include)
+# Link dependencies if needed
+target_link_libraries(WorldObjects)
 
-add_library(WorldObjects SHARED ${SRC})

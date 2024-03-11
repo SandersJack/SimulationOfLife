@@ -32,7 +32,7 @@ void Organism::moveRandom() {
 }
 
 void Organism::moveUp() {
-    if (x - 1 >= 0 && !fWorld.isOccupied(x, y - 1)) {
+    if (y - 1 >= 0 && !fWorld.isOccupied(x, y - 1)) {
         fWorld.moveElement(this, x, y - 1);
     }
 }

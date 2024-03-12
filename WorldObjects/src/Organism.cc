@@ -3,9 +3,10 @@
 
 #include <iostream>
 #include <random>
+#include <cstring>
 
 Organism::Organism(World& world): fWorld(world), fAge(0), fHunger(100), fHealth(100), fAlive(true), 
-    fHealth_loss(50), fHunger_loss(50){
+    fHealth_loss(50), fHunger_loss(20){
 
 }
 

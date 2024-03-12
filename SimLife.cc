@@ -42,6 +42,13 @@ int main(int argc, char* argv[]){
         }
     }
 
+    // Check if inputs are valid
+    int nGridSpaces = gridsize * gridsize;
+    if((numOrganisms + numFood) > nGridSpaces){
+        std::cerr << "[SimLife] Error: Too many world objects for grid size of " << gridsize << std::endl;
+        exit(1);
+    } 
+
     // Call the sim manager
     SimManager *simMan = SimManager::GetInstance();
     // Set Simulation Paramters

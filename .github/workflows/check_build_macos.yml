@@ -21,6 +21,6 @@ jobs:
 
     - name: Configure and build
       working-directory: ./
-        run: |
-          source scripts/env.sh
-          make
+      run: |
+        source scripts/env.sh
+        make

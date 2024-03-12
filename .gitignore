@@ -1,1 +1,7 @@
 **/build
+
+# MacOS
+.DS_Store
+
+# Doxygen/Documentation
+doc/

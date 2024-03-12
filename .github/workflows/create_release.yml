@@ -59,7 +59,7 @@ jobs:
       run: |
         tag_name="${{ steps.version.outputs.new_version }}"
         release_name="Release ${{ steps.version.outputs.new_version }}"
-        body="Release notes for version ${{ steps.version.outputs.new_version }}"
+        body="Release notes for version ${{ steps.version.outputs.new_version }}:${{ steps.release_notes.outputs.release_notes }}"
 
         token="${{ secrets.GITHUB_TOKEN }}"
         owner="${{ github.repository_owner }}"

@@ -8,7 +8,7 @@ int main(int argc, char* argv[]){
     int gridsize = 32;
 
     int numOrganisms = 10;
-    const int numFood = 50;
+    int numFood = 10;
 
     // Parse input arguments
     for (int i = 1; i < argc; i++)
@@ -23,6 +23,11 @@ int main(int argc, char* argv[]){
             if (strcmp(argv[i], "-nO") == 0) // Number of organisms
             {                 
                 numOrganisms = std::stod(argv[i + 1]);
+                i++;
+            } 
+            if (strcmp(argv[i], "-nF") == 0) // Number of food items
+            {                 
+                numFood = std::stod(argv[i + 1]);
                 i++;
             } 
         }

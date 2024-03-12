@@ -25,12 +25,12 @@ World::World(int gridsize): fGridSize(gridsize){
 World::~World(){
     // Free memory
     for (int i = 0; i < fGridSize; ++i) {
-            for (int j = 0; j < fGridSize; ++j) {
-                delete fGrid[i][j];
-            }
-            delete[] fGrid[i];
+        for (int j = 0; j < fGridSize; ++j) {
+            delete fGrid[i][j];
         }
-        delete[] fGrid;
+        delete[] fGrid[i];
+    }
+    delete[] fGrid;
 }
 
 void World::setElement(WObject* obj, int x, int y) {
@@ -61,12 +61,10 @@ void World::moveElement(WObject* obj, int x_new, int y_new) {
     
     if (x_new >= 0 && x_new < fGridSize && y_new >= 0 && y_new < fGridSize) {
         fGrid[x_old][y_old] = nullptr;
-        if(isOccupied(x_new, y_new))
-            removeElement(GetElement(x_new, y_new));
+        //if(isOccupied(x_new, y_new)) // Is the place the object is moving to occupied
+        //    removeElement(GetElement(x_new, y_new)); // remove current occupier
         fGrid[x_new][y_new] = obj;
-
         obj->SetPosition(x_new, y_new);
-
     } else {
         std::cerr << "Invalid position." << std::endl;
     }
@@ -120,7 +118,6 @@ void World::displayGrid() const {
 }
 
 void World::step(){
-    
     for (auto it = fWObjects.begin(); it != fWObjects.end();) {
         WObject* wo = *it;
 

@@ -31,7 +31,7 @@ class World {
         std::vector<Organism*> GetOrganisms(){return fOrganisms;}
         std::vector<FoodItem*> GetFoods() { return fFoods; }
 
-        bool isOccupied(int posX, int posY){return fGrid[posX][posY] != nullptr;}
+        bool isOccupied(int posX, int posY) { return fGrid[posX][posY] != nullptr; }
 
         void step();
 

@@ -26,11 +26,11 @@ void Organism::moveRandom() {
 void Organism::move(const int dx, const int dy, const bool noCollision) {
     const int gridSize = fWorld.getGridSize();
     // Avoid movements outside the defined grid
-    if(x+dx >= gridSize || x+dx < 0 || y+dy >= gridSize || y+dy < 0)
-        return;
+    const int xNew = abs((x + dx) % gridSize); // Wraps around the grid
+    const int yNew = abs((y + dy) % gridSize); // Wraps around the grid
 
     // Check if some food exists, if so eat it
-    if(fWorld.isOccupied(x+dx,y+dy)) {
+    if(fWorld.isOccupied(xNew,yNew)) {
         if(strcmp(fWorld.GetElement(x+dx, y+dy)->className(), "FoodItem") == 0) {
             FoodItem *food = static_cast<FoodItem *>(fWorld.GetElement(x+dx, y+dy));
             nourish(food->getNourishment());
@@ -38,8 +38,8 @@ void Organism::move(const int dx, const int dy, const bool noCollision) {
         }
     }
 
-    if(noCollision || (!fWorld.isOccupied(x+dx,y+dy) && !noCollision))
-        fWorld.moveElement(this, x + dx, y + dy);
+    if(noCollision || (!fWorld.isOccupied(xNew,yNew) && !noCollision))
+        fWorld.moveElement(this, xNew, yNew);
 }
 
 void Organism::moveUp() {

@@ -1,0 +1,26 @@
+name: Build on MacOS
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install CMake
+      run: brew install cmake
+
+    - name: Configure and build
+      working-directory: ./
+        run: |
+          source scripts/env.sh
+          make

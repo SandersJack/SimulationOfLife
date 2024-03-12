@@ -8,6 +8,7 @@ int main(int argc, char* argv[]){
     int gridsize = 32;
 
     int numOrganisms = 10;
+    int numFood = 10;
 
     // Parse input arguments
     for (int i = 1; i < argc; i++)
@@ -19,9 +20,14 @@ int main(int argc, char* argv[]){
                 gridsize = std::stod(argv[i + 1]);
                 i++;
             } 
-            if (strcmp(argv[i], "-nO") == 0) // GridSize
+            if (strcmp(argv[i], "-nO") == 0) // Number of organisms
             {                 
                 numOrganisms = std::stod(argv[i + 1]);
+                i++;
+            } 
+            if (strcmp(argv[i], "-nF") == 0) // Number of food items
+            {                 
+                numFood = std::stod(argv[i + 1]);
                 i++;
             } 
         }
@@ -36,13 +42,20 @@ int main(int argc, char* argv[]){
         }
     }
 
+    // Check if inputs are valid
+    int nGridSpaces = gridsize * gridsize;
+    if((numOrganisms + numFood) > nGridSpaces){
+        std::cerr << "[SimLife] Error: Too many world objects for grid size of " << gridsize << std::endl;
+        exit(1);
+    } 
+
     // Call the sim manager
     SimManager *simMan = SimManager::GetInstance();
     // Set Simulation Paramters
     simMan->SetGridSize(gridsize);
     
     // Init the Simulation
-    simMan->Init(numOrganisms);
+    simMan->Init(numOrganisms, numFood);
 
     //First Step
     for(int i{0}; i <10; i++){

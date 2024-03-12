@@ -1,0 +1,74 @@
+name: Create Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: 'Specify the release type (patch/minor/major)'
+        required: true
+        default: 'patch'
+
+jobs:
+  create_release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with: 
+        fetch-depth: 0 
+
+    - name: Set up Git
+      run: |
+        git config user.email "sandersjack141@gmail.com"
+        git config user.name "runnerSanders"
+
+    - name: Fetch tags
+      run: git fetch --tags
+
+    - name: Determine version
+      id: version
+      run: |
+        current_version=$(git describe --tags --abbrev=0)
+        version_parts=(${current_version//./ })
+        
+        case "${{ github.event.inputs.release_type }}" in
+          "patch")
+            new_version="${version_parts[0]}.${version_parts[1]}.$((${version_parts[2]} + 1))"
+            ;;
+          "minor")
+            new_version="${version_parts[0]}.$((${version_parts[1]} + 1)).0"
+            ;;
+          "major")
+            new_version="$(( ${version_parts[0]} + 1 )).0.0"
+            ;;
+          *)
+            echo "Invalid release type. Supported types: patch, minor, major"
+            exit 1
+            ;;
+        esac
+        
+        echo "::set-output name=new_version::${new_version}"
+
+    - name: Create tag
+      run: |
+        git tag -a "${{ steps.version.outputs.new_version }}" -m "Release ${{ steps.version.outputs.new_version }}"
+        git push origin "${{ steps.version.outputs.new_version }}"
+
+    - name: Create Release
+      run: |
+        tag_name="${{ steps.version.outputs.new_version }}"
+        release_name="Release ${{ steps.version.outputs.new_version }}"
+        body="Release notes for version ${{ steps.version.outputs.new_version }}:${{ steps.release_notes.outputs.release_notes }}"
+
+        token="${{ secrets.GITHUB_TOKEN }}"
+        owner="${{ github.repository_owner }}"
+        repo="${{ github.event.repository.name }}"
+        
+        response=$(curl -X POST \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H "Authorization: token $token" \
+          https://api.github.com/repos/$owner/$repo/releases \
+          -d "{\"tag_name\": \"$tag_name\", \"name\": \"$release_name\", \"body\": \"$body\"}")
+
+        echo "Release created. Response: $response"

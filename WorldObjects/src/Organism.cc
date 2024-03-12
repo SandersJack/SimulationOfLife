@@ -17,7 +17,6 @@ void Organism::moveRandom() {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<int> dis(-2, 2); // Inclusive range [-2,2]
-
     int xRand = dis(gen);
     int yRand = dis(gen);
 
@@ -32,8 +31,8 @@ void Organism::move(const int dx, const int dy, const bool noCollision) {
 
     // Check if some food exists, if so eat it
     if(fWorld.isOccupied(xNew,yNew)) {
-        if(strcmp(fWorld.GetElement(x+dx, y+dy)->className(), "FoodItem") == 0) {
-            FoodItem *food = static_cast<FoodItem *>(fWorld.GetElement(x+dx, y+dy));
+        if(strcmp(fWorld.GetElement(xNew, yNew)->className(), "FoodItem") == 0) {
+            FoodItem *food = static_cast<FoodItem *>(fWorld.GetElement(xNew, yNew));
             nourish(food->getNourishment());
             food->eat();
         }

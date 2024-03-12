@@ -11,7 +11,7 @@ int FoodItem::step() {
     // Rot the food if random number is below the decay rate
     if(decayProb < fDecayRate) {
         fIsDecayed = true;
-        fWorld.removeElement(this); // TODO: Eating rotten food harms you rather than removing?
+        //fWorld.removeElement(this); // TODO: Eating rotten food harms you rather than removing?
         return 0;
     }
 

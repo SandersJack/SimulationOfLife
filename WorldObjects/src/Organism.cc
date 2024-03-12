@@ -33,7 +33,11 @@ void Organism::move(const int dx, const int dy, const bool noCollision) {
     if(fWorld.isOccupied(xNew,yNew)) {
         if(strcmp(fWorld.GetElement(xNew, yNew)->className(), "FoodItem") == 0) {
             FoodItem *food = static_cast<FoodItem *>(fWorld.GetElement(xNew, yNew));
-            nourish(food->getNourishment());
+            if(food->getIsDecayed()) {
+                removeHealth(10.0);
+            } else {
+                nourish(food->getNourishment());
+            }
             food->eat();
         }
     }

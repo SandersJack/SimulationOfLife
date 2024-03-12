@@ -106,7 +106,11 @@ void World::displayGrid() const {
                 if(strcmp(fGrid[i][j]->className(), "Organism") == 0){
                     std::cout << "O ";
                 } else if(strcmp(fGrid[i][j]->className(), "FoodItem") == 0) {
-                    std::cout << "F ";
+                    if(static_cast<FoodItem*>(fGrid[i][j])->getIsDecayed()) {
+                        std::cout << "R ";
+                    } else {
+                        std::cout << "F ";
+                    }
                 }
             }
         }

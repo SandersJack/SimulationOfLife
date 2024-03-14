@@ -5,3 +5,6 @@
 
 # Doxygen/Documentation
 doc/
+
+#vscode 
+.vscode

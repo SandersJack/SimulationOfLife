@@ -23,5 +23,6 @@ jobs:
       - name: Test make
         working-directory: ./
         run: |
+          ls GLTools
           source scripts/env.sh
           make

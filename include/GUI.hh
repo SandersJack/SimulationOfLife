@@ -2,6 +2,8 @@
 #define GUI_H
 
 #include "GLTools.hh"
+#include "ResourceManager.hh"
+#include "SpriteRenderer.hh"
 
 class GUI {
 
@@ -20,6 +22,9 @@ class GUI {
         GLFWwindow *fWindow;
 
         int fGridSize;
+
+        ResourceManager *fResourceManager;
+        SpriteRenderer *fSpriteRenderer;
 };
 
 #endif

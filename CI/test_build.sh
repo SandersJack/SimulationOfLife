@@ -1,6 +1,10 @@
 #!/bin/bash
 
-ls GLTools
-
 source scripts/env.sh
+
+cd GLTools
+make 
+
+cd ..
+
 make

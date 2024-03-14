@@ -1,5 +1,7 @@
 #include "SimManager.hh"
 
+#include "GUI.hh"
+
 #include <cstdlib>
 #include <iostream>
 
@@ -49,6 +51,10 @@ void SimManager::Init(const int numOrganisms, const int numFood) {
     fFoods = fWorld->GetFoods();
     fOrganisms = fWorld->GetOrganisms();
     fWorld->displayGrid();
+
+    GUI *in_GUI = GUI::GetInstance();
+    in_GUI->Init();
+    in_GUI->Draw();
 }
 
 void SimManager::Step(){

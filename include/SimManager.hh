@@ -4,8 +4,10 @@
 #include "World.hh"
 #include "Organism.hh"
 #include "FoodItem.hh"
+#include "GUI.hh"
 
 #include <vector>
+
 
 class SimManager {
     public:
@@ -16,6 +18,7 @@ class SimManager {
         void Step();
 
         void SetGridSize(int val){fGridSize = val;}
+        int GetGridSize(){return fGridSize;}
 
         static SimManager *GetInstance();
     private:

@@ -11,12 +11,15 @@ class GUI {
 
         void Init();
         void Draw();
+        void DrawGrid();
 
         static GUI *GetInstance();
     private:
         static GUI *fInstance;
 
         GLFWwindow *fWindow;
+
+        int fGridSize;
 };
 
 #endif

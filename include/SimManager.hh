@@ -20,6 +20,8 @@ class SimManager {
         void SetGridSize(int val){fGridSize = val;}
         int GetGridSize(){return fGridSize;}
 
+        std::vector<Organism*> GetOrganisms(){return fOrganisms;};
+
         static SimManager *GetInstance();
     private:
         static SimManager *fInstance;

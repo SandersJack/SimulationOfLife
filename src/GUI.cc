@@ -66,9 +66,39 @@ void GUI::Init() {
 
     // Make the window's context current
     glfwMakeContextCurrent(fWindow);
-
-    glfwMakeContextCurrent(fWindow);
     glClear(GL_COLOR_BUFFER_BIT);
+    DrawGrid();
+
+    fResourceManager = ResourceManager::GetInstance();
+    fSpriteRenderer = SpriteRenderer::GetInstance();
+
+    fResourceManager->LoadShader("shaders/sprite.vs", "shaders/sprite.fs", "sprite");
+
+    Matrix4 modelMatrix1 = Matrix4(1.0f);
+    fResourceManager->GetShader("sprite").Use().SetInteger("image", 0);
+    fResourceManager->GetShader("sprite").SetMatrix4("model", modelMatrix1);
+
+    fSpriteRenderer->SetShader(fResourceManager->GetShader("sprite"));
+    fSpriteRenderer->initRenderData();
+    // load textures
+    fResourceManager->LoadTexture("textures/org.png", true, "face");
+
+    modelLocation = glGetUniformLocation(fResourceManager->GetShader("sprite").GetID(), "model");
+    colorLocation = glGetUniformLocation(fResourceManager->GetShader("sprite").GetID(), "color");
+
+    // Set the viewport and projection matrix
+    glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
+    glMatrixMode(GL_MODELVIEW);
+    
+    // Set line width
+    glLineWidth(1.0);
+
+}
+
+void GUI::DrawGrid() {
 
     // Draw horizontal lines
     glColor3f(1.0, 1.0, 1.0); // Set color to black
@@ -86,70 +116,26 @@ void GUI::Init() {
         glVertex2f(2.0 * i / GRID_SIZE, 1.0);
     }
     glEnd();
-
-    glfwSwapBuffers(fWindow);
-    glfwPollEvents();
-    
-    std::cout << "Res Start" << std::endl;
-    fResourceManager = ResourceManager::GetInstance();
-    std::cout << "Res Start0" << std::endl;
-    fSpriteRenderer = SpriteRenderer::GetInstance();
-    std::cout << "Res Start10" << std::endl;
-
-    fResourceManager->LoadShader("shaders/sprite.vs", "shaders/sprite.fs", "sprite");
-    std::cout << "Res Start11" << std::endl;
-
-    std::cout << "Res Start1" << std::endl;
-    Matrix4 modelMatrix1 = Matrix4(1.0f);
-    fResourceManager->GetShader("sprite").Use().SetInteger("image", 0);
-    fResourceManager->GetShader("sprite").SetMatrix4("model", modelMatrix1);
-
-    fSpriteRenderer->SetShader(fResourceManager->GetShader("sprite"));
-    fSpriteRenderer->initRenderData();
-    // load textures
-    fResourceManager->LoadTexture("textures/org.png", true, "face");
-
-    std::cout << "Res Start2" << std::endl;
-    modelLocation = glGetUniformLocation(fResourceManager->GetShader("sprite").GetID(), "model");
-    colorLocation = glGetUniformLocation(fResourceManager->GetShader("sprite").GetID(), "color");
-
-    // Set initial model matrix and color uniforms
-    Matrix4 modelMatrix = Matrix4(1.0f);
-    glUniformMatrix4fv(modelLocation, 1, GL_FALSE, &modelMatrix[0][0]);
-
-    Vector3 sliderColor = Vector3(0.2f, 0.2f, 0.8f);
-    glUniform3fv(colorLocation, 1, &sliderColor[0]);
-
-    // Set framebuffer size callback
-    glfwSetFramebufferSizeCallback(fWindow, framebuffer_size_callback);
-
-    // Set the viewport and projection matrix
-    glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(-1.1, 1.1, -1.1, 1.1, -1.0, 1.0);
-    glMatrixMode(GL_MODELVIEW);
-    
-    // Set line width
-    glLineWidth(1.0);
-
-    
-    
-    std::cout << "INIT DONE" << std::endl;
-}
-
-void GUI::DrawGrid() {
-
 }
 
 void GUI::Draw() {
     glfwMakeContextCurrent(fWindow); // Make the OpenGL context current
+    glClear(GL_COLOR_BUFFER_BIT);
     DrawGrid();
 
     const Texture2D &textureRef = fResourceManager->GetTexture("face");
     Vector3 Color = Vector3(1.f, 1.f, 1.f);
-    fSpriteRenderer->DrawSprite(textureRef, Vector2(0.5,0.5), Vector2(.25 / 4,.25 / 4), 0.0, Color);
 
+    std::vector<Organism*> orgs = SimManager::GetInstance()->GetOrganisms();
+    for(auto o: orgs){
+        int y = o->GetX();
+        int x = o->GetY();
+
+        double gui_x = -15.5 + x;
+        double gui_y = 15.5 - y;
+
+        fSpriteRenderer->DrawSprite(textureRef, Vector2(gui_x,gui_y), Vector2(.25 / 4,.25 / 4), 0.0, Color);
+    }
     glfwSwapBuffers(fWindow);
     glfwPollEvents();
 }

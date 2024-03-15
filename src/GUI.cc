@@ -4,11 +4,6 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
-static const uint SCR_WIDTH = 1000;
-static const uint SCR_HEIGHT = 1000;
-
-static const int GRID_SIZE = 32;
-
 static GLuint VAO, modelLocation, colorLocation;
 
 GUI::GUI() : fWindow(nullptr) {}
@@ -37,9 +32,11 @@ static void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     glViewport(0, 0, width, height);
 }
 
-void GUI::Init() {
+void GUI::Init(const uint SCR_WIDTH, const uint SCR_HEIGHT) {
     // Set GLFW error callback
     glfwSetErrorCallback(errorCallback);
+
+    fGRID_SIZE = SimManager::GetInstance()->GetGridSize();
 
     // Initialize GLFW
     if (!glfwInit()) {
@@ -103,17 +100,17 @@ void GUI::DrawGrid() {
     // Draw horizontal lines
     glColor3f(1.0, 1.0, 1.0); // Set color to black
     glBegin(GL_LINES);
-    for (int i = -GRID_SIZE / 2; i <= GRID_SIZE / 2; ++i) {
-        glVertex2f(-1.0, 2.0 * i / GRID_SIZE);
-        glVertex2f(1.0, 2.0 * i / GRID_SIZE);
+    for (int i = -fGRID_SIZE / 2; i <= fGRID_SIZE / 2; ++i) {
+        glVertex2f(-1.0, 2.0 * i / fGRID_SIZE);
+        glVertex2f(1.0, 2.0 * i / fGRID_SIZE);
     }
     glEnd();
 
     // Draw vertical lines
     glBegin(GL_LINES);
-    for (int i = -GRID_SIZE / 2; i <= GRID_SIZE / 2; ++i) {
-        glVertex2f(2.0 * i / GRID_SIZE, -1.0);
-        glVertex2f(2.0 * i / GRID_SIZE, 1.0);
+    for (int i = -fGRID_SIZE / 2; i <= fGRID_SIZE / 2; ++i) {
+        glVertex2f(2.0 * i / fGRID_SIZE, -1.0);
+        glVertex2f(2.0 * i / fGRID_SIZE, 1.0);
     }
     glEnd();
 }
@@ -126,15 +123,17 @@ void GUI::Draw() {
     const Texture2D &textureRef = fResourceManager->GetTexture("face");
     Vector3 Color = Vector3(1.f, 1.f, 1.f);
 
+    double width = (static_cast<float>(fGRID_SIZE) - 1.) / 2;
+
     std::vector<Organism*> orgs = SimManager::GetInstance()->GetOrganisms();
     for(auto o: orgs){
         int y = o->GetX();
         int x = o->GetY();
 
-        double gui_x = -15.5 + x;
-        double gui_y = 15.5 - y;
+        double gui_x = -width + x;
+        double gui_y = width - y;
 
-        fSpriteRenderer->DrawSprite(textureRef, Vector2(gui_x,gui_y), Vector2(.25 / 4,.25 / 4), 0.0, Color);
+        fSpriteRenderer->DrawSprite(textureRef, Vector2(gui_x, gui_y), Vector2(.25 / 4,.25 / 4), 0.0, Color);
     }
     glfwSwapBuffers(fWindow);
     glfwPollEvents();

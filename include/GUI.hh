@@ -11,7 +11,7 @@ class GUI {
         GUI();
         ~GUI();
 
-        void Init();
+        void Init(const uint SCR_WIDTH, const uint SCR_HEIGHT);
         void Draw();
         void DrawGrid();
 
@@ -21,7 +21,7 @@ class GUI {
 
         GLFWwindow *fWindow;
 
-        int fGridSize;
+        int fGRID_SIZE;
 
         ResourceManager *fResourceManager;
         SpriteRenderer *fSpriteRenderer;

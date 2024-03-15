@@ -53,7 +53,7 @@ void SimManager::Init(const int numOrganisms, const int numFood) {
     fWorld->displayGrid();
 
     GUI *in_GUI = GUI::GetInstance();
-    in_GUI->Init();
+    in_GUI->Init(1000, 1000);
     in_GUI->Draw();
 
 }

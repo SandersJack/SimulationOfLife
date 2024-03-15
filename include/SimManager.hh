@@ -20,6 +20,8 @@ class SimManager {
         void SetGridSize(int val){fGridSize = val;}
         int GetGridSize(){return fGridSize;}
 
+        void SetVisuliseType(int val){fVisType = val;}
+
         std::vector<Organism*> GetOrganisms(){return fOrganisms;};
 
         static SimManager *GetInstance();
@@ -28,6 +30,8 @@ class SimManager {
         
         int fGridSize;
         World *fWorld;
+
+        int fVisType;
 
         std::vector<Organism*> fOrganisms;
         std::vector<FoodItem*> fFoods;

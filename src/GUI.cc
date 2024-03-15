@@ -1,8 +1,13 @@
 #include "GUI.hh"
 #include "SimManager.hh"
+
 #include <GL/gl.h>
 #include <GLFW/glfw3.h>
+
 #include <iostream>
+#include <ctime>
+#include <thread>
+#include <algorithm>
 
 static GLuint VAO, modelLocation, colorLocation;
 
@@ -137,4 +142,7 @@ void GUI::Draw() {
     }
     glfwSwapBuffers(fWindow);
     glfwPollEvents();
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+
 }

@@ -1,6 +1,7 @@
 #ifndef Organism_H
 #define Organism_H
 
+#include "Constants.hh"
 #include "WObject.hh"
 #include "World.hh"
 
@@ -18,6 +19,10 @@ class Organism: public WObject {
 
         const char* className() const override {return "Organism";}
 
+        void setGeneProfile(U16 profile) { fGenetics = profile; }
+        U16 getGeneProfile() { return fGenetics; }
+
+        void moveToFood(const int searchRadius);
         void moveRandom();
         void moveUp();
         void moveDown();
@@ -39,6 +44,9 @@ class Organism: public WObject {
     private:
         World &fWorld;
 
+        U64 fGenetics;
+        float fMaxStepDistance;
+
         int fAge;
         double fHunger;
         double fHealth;
@@ -46,6 +54,8 @@ class Organism: public WObject {
 
         double fHealth_loss;
         double fHunger_loss;
+
+        void MakeRandomGeneticProfile();
 
 };
 

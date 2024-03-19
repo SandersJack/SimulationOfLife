@@ -19,8 +19,10 @@ jobs:
     - name: Install CMake
       run: brew install cmake
 
-    - name: Configure and build
+    - name: SetUp Enviroment
+        working-directory: ./
+        run: ./CI/setupEnv_Mac.sh
+
+    - name: Test make
       working-directory: ./
-      run: |
-        source scripts/env.sh
-        make
+      run: ./CI/run_build.sh

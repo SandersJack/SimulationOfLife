@@ -22,4 +22,4 @@ jobs:
 
       - name: Test make
         working-directory: ./
-        run: ./CI/test_build.sh
+        run: ./CI/run_build.sh

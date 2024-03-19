@@ -97,16 +97,16 @@ void World::removeElement(WObject* obj){
 void World::displayGrid() const {
     std::cout << clearScreen;
     std::cout << "¦" << std::string(fGridSize*2 + 1, '-') << "¦" << std::endl;
-    for (int i = 0; i < fGridSize; ++i) {
+    for (int y = 0; y < fGridSize; ++y) {
         std::cout << "¦ ";
-        for (int j = 0; j < fGridSize; ++j) {
-            if (fGrid[i][j] == nullptr) {
+        for (int x = 0; x < fGridSize; ++x) {
+            if (fGrid[x][y] == nullptr) {
                 std::cout << ". ";
             } else {
-                if(strcmp(fGrid[i][j]->className(), "Organism") == 0){
+                if(strcmp(fGrid[x][y]->className(), "Organism") == 0){
                     std::cout << "O ";
-                } else if(strcmp(fGrid[i][j]->className(), "FoodItem") == 0) {
-                    if(static_cast<FoodItem*>(fGrid[i][j])->getIsDecayed()) {
+                } else if(strcmp(fGrid[x][y]->className(), "FoodItem") == 0) {
+                    if(static_cast<FoodItem*>(fGrid[x][y])->getIsDecayed()) {
                         std::cout << "R ";
                     } else {
                         std::cout << "F ";

@@ -132,13 +132,13 @@ void GUI::Draw() {
 
     std::vector<Organism*> orgs = SimManager::GetInstance()->GetOrganisms();
     for(auto o: orgs){
-        int y = o->GetX();
-        int x = o->GetY();
+        int x = o->GetX();
+        int y = o->GetY();
 
         double gui_x = -width + x;
         double gui_y = width - y;
 
-        fSpriteRenderer->DrawSprite(textureRef, Vector2(gui_x, gui_y), Vector2(.25 / 4,.25 / 4), 0.0, Color);
+        fSpriteRenderer->DrawSprite(textureRef, Vector2(gui_x, gui_y), Vector2(.25 / (static_cast<float>(fGRID_SIZE) / 8),.25 / (static_cast<float>(fGRID_SIZE) / 8)), 0.0, Color);
     }
     glfwSwapBuffers(fWindow);
     glfwPollEvents();

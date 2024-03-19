@@ -4,7 +4,7 @@ project(SimulationOfLife)
 find_package(glfw3 REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(Freetype REQUIRED)
-find_package(OpenGL REQUIRED OpenGL)
+find_package(OpenGL REQUIRED)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

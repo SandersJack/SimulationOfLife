@@ -20,8 +20,8 @@ jobs:
       run: brew install cmake
 
     - name: SetUp Enviroment
-        working-directory: ./
-        run: ./CI/setupEnv_Mac.sh
+      working-directory: ./
+      run: ./CI/setupEnv_Mac.sh
 
     - name: Test make
       working-directory: ./

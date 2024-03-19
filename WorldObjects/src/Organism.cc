@@ -5,12 +5,23 @@
 #include <random>
 #include <cstring>
 
-Organism::Organism(World& world): fWorld(world), fAge(0), fHunger(100), fHealth(100), fAlive(true), 
+Organism::Organism(World& world): fWorld(world), fGenetics(0), fMaxStepDistance(3.0), fAge(0), fHunger(100), fHealth(100), fAlive(true), 
     fHealth_loss(50), fHunger_loss(20){
-
+        MakeRandomGeneticProfile();
 }
 
 Organism::~Organism(){
+}
+
+void Organism::MakeRandomGeneticProfile() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> dis(0, 1);
+    for(U8 i = 0; i < 16; ++i) {
+        bool hasGene = dis(gen);
+        if(hasGene)
+            fGenetics |= 1ULL << i;
+    }
 }
 
 void Organism::moveRandom() {
@@ -90,9 +101,49 @@ void Organism::removeHunger(double val) {
     }
 }
 
+void Organism::moveToFood(const int searchRadius) {
+    // Steps the organism towards the nearest source of nourishment (including rot)
+    const int gridSize = fWorld.getGridSize();
+    std::pair<int, int> closestFood = std::make_pair(-1, -1);
+    float bestDistToFood = 999999.;
+
+    // TODO: this actually searches a square currently rather than a radius but it'll do
+    for(int dx = -searchRadius; dx < searchRadius; ++dx) {
+        for(int dy = -searchRadius; dy < searchRadius; ++dy) {
+            const int xNew = abs((x + dx) % gridSize);
+            const int yNew = abs((y + dy) % gridSize); // % to allow wrap-around
+            if(fWorld.isOccupied(xNew, yNew)) {
+                if(strcmp(fWorld.GetElement(xNew, yNew)->className(), "FoodItem") != 0)
+                    continue;
+                // Food item exists at xnew ynew
+                float dist = sqrt(pow(dx,2)+pow(dy,2));
+                if(dist < bestDistToFood) {
+                    bestDistToFood = dist;
+                    closestFood = std::make_pair(dx, dy);
+                }
+            }
+        }
+    }
+
+    // Found food in the search radius to look for
+    if(bestDistToFood < 999999.) {
+        // Calculate the next step as the unit vector towards the food
+        double stepX = std::min(fMaxStepDistance, bestDistToFood) * (closestFood.first / bestDistToFood);
+        double stepY = std::min(fMaxStepDistance, bestDistToFood) * (closestFood.second / bestDistToFood);
+        // Step towards the food in both x and y by 1 unit
+        move((int)stepX, (int)stepY, false);
+    }
+}
 
 int Organism::step() {
-    moveRandom();
-    removeHunger(fHunger_loss);
+    //moveRandom();
+    moveToFood(8);
+
+    if(get_bit(fGenetics, (U8)Trait::SlowMetabolism)) {
+        // Organisms with a slower metabolism lose hunger slower
+        removeHunger(fHunger_loss / 2);
+    } else {
+        removeHunger(fHunger_loss);
+    }
     return fAlive;
 }

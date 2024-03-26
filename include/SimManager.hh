@@ -23,6 +23,7 @@ class SimManager {
         void SetVisuliseType(int val){fVisType = val;}
 
         std::vector<Organism*> GetOrganisms(){return fOrganisms;};
+        std::vector<FoodItem*> GetFoodItems(){return fFoods;};
 
         static SimManager *GetInstance();
     private:

@@ -83,7 +83,9 @@ void GUI::Init(const uint SCR_WIDTH, const uint SCR_HEIGHT) {
     fSpriteRenderer->SetShader(fResourceManager->GetShader("sprite"));
     fSpriteRenderer->initRenderData();
     // load textures
-    fResourceManager->LoadTexture("textures/org.png", true, "face");
+    fResourceManager->LoadTexture("textures/org.png", true, "org");
+    fResourceManager->LoadTexture("textures/food.png", true, "food");
+    fResourceManager->LoadTexture("textures/rotten_food.png", true, "rotten");
 
     modelLocation = glGetUniformLocation(fResourceManager->GetShader("sprite").GetID(), "model");
     colorLocation = glGetUniformLocation(fResourceManager->GetShader("sprite").GetID(), "color");
@@ -125,7 +127,7 @@ void GUI::Draw() {
     glClear(GL_COLOR_BUFFER_BIT);
     DrawGrid();
 
-    const Texture2D &textureRef = fResourceManager->GetTexture("face");
+    const Texture2D &textureRef = fResourceManager->GetTexture("org");
     Vector3 Color = Vector3(1.f, 1.f, 1.f);
 
     double width = (static_cast<float>(fGRID_SIZE) - 1.) / 2;
@@ -140,6 +142,24 @@ void GUI::Draw() {
 
         fSpriteRenderer->DrawSprite(textureRef, Vector2(gui_x, gui_y), Vector2(.25 / (static_cast<float>(fGRID_SIZE) / 8),.25 / (static_cast<float>(fGRID_SIZE) / 8)), 0.0, Color);
     }
+
+    std::vector<FoodItem*> foods = SimManager::GetInstance()->GetFoodItems();
+    const Texture2D &textureRef_food = fResourceManager->GetTexture("food");
+    const Texture2D &textureRef_rotten = fResourceManager->GetTexture("rotten");
+    for(auto f: foods){
+        int x = f->GetX();
+        int y = f->GetY();
+
+        double gui_x = -width + x;
+        double gui_y = width - y;
+
+        if(f->getIsDecayed())
+            fSpriteRenderer->DrawSprite(textureRef_rotten, Vector2(gui_x, gui_y), Vector2(.25 / (static_cast<float>(fGRID_SIZE) / 8),.25 / (static_cast<float>(fGRID_SIZE) / 8)), 0.0, Color);
+        else 
+            fSpriteRenderer->DrawSprite(textureRef_food, Vector2(gui_x, gui_y), Vector2(.25 / (static_cast<float>(fGRID_SIZE) / 8),.25 / (static_cast<float>(fGRID_SIZE) / 8)), 0.0, Color);
+
+    }
+
     glfwSwapBuffers(fWindow);
     glfwPollEvents();
 

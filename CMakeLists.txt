@@ -47,5 +47,11 @@ target_include_directories(SoL PRIVATE GLTools/Controls/include)
 target_include_directories(SoL PRIVATE ${GLFW_INCLUDE_DIRS})
 
 # Link libraries
-target_link_libraries(SoL PRIVATE WorldObjects glfw -framework OpenGL GLEW::GLEW Freetype::Freetype)
+# Link OpenGL library depending on platform
+if(APPLE)
+    target_link_libraries(SoL PRIVATE WorldObjects glfw -framework OpenGL GLEW::GLEW Freetype::Freetype)
+else()
+    target_link_libraries(SoL PRIVATE WorldObjects glfw  OpenGL::OpenGL GLEW::GLEW Freetype::Freetype)
+endif()
+
 

@@ -16,8 +16,10 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v4
 
+      - name: SetUp Enviroment
+        working-directory: ./
+        run: ./CI/setupEnv.sh
+
       - name: Test make
         working-directory: ./
-        run: |
-          source scripts/env.sh
-          make
+        run: ./CI/run_build.sh

@@ -10,6 +10,9 @@ int main(int argc, char* argv[]){
     int numOrganisms = 10;
     int numFood = 10;
 
+    bool vis = false;
+    int visType = 0;
+
     // Parse input arguments
     for (int i = 1; i < argc; i++)
     {  
@@ -30,6 +33,19 @@ int main(int argc, char* argv[]){
                 numFood = std::stod(argv[i + 1]);
                 i++;
             } 
+            if (strcmp(argv[i], "-vis") == 0) // Type of visulisation
+            {                 
+                visType = std::stod(argv[i + 1]);
+                if(visType > 1){
+                    std::cerr << "[SimLife] Error: Only valid options for -vis are: 0 and 1 " << std::endl;
+                    exit(1);
+                }
+                vis = true;
+                i++;
+            }
+        }
+        if (strcmp(argv[i], "-vis") == 0){
+            vis = true;
         }
         if (strcmp(argv[i], "-h") == 0) // Help
             {                 
@@ -37,6 +53,8 @@ int main(int argc, char* argv[]){
                 std::cout << "Displaying Help Message:" << std::endl;
                 std::cout << "-gS <int> : Grid size of the world (gridsize x gridsize)" << std::endl;
                 std::cout << "-nO <int> : Number of Organisms" << std::endl;
+                std::cout << "-nF <int> : Number of Food Items" << std::endl;
+                std::cout << "-vis <int> : Type of visualisation <default=0> (0 for terminal, 1 for GUI)" << std::endl;
                 std::cout << "-----------------------------------" << std::endl;
                 exit(0);
         }
@@ -53,6 +71,8 @@ int main(int argc, char* argv[]){
     SimManager *simMan = SimManager::GetInstance();
     // Set Simulation Paramters
     simMan->SetGridSize(gridsize);
+    if(vis)
+        simMan->SetVisuliseType(visType);
     
     // Init the Simulation
     simMan->Init(numOrganisms, numFood);

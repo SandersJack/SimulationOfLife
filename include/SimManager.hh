@@ -4,8 +4,10 @@
 #include "World.hh"
 #include "Organism.hh"
 #include "FoodItem.hh"
+#include "GUI.hh"
 
 #include <vector>
+
 
 class SimManager {
     public:
@@ -16,6 +18,12 @@ class SimManager {
         void Step();
 
         void SetGridSize(int val){fGridSize = val;}
+        int GetGridSize(){return fGridSize;}
+
+        void SetVisuliseType(int val){fVisType = val;}
+
+        std::vector<Organism*> GetOrganisms(){return fOrganisms;};
+        std::vector<FoodItem*> GetFoodItems(){return fFoods;};
 
         static SimManager *GetInstance();
     private:
@@ -23,6 +31,8 @@ class SimManager {
         
         int fGridSize;
         World *fWorld;
+
+        int fVisType;
 
         std::vector<Organism*> fOrganisms;
         std::vector<FoodItem*> fFoods;

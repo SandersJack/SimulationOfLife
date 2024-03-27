@@ -1,6 +1,12 @@
 cmake_minimum_required(VERSION 3.20)
 project(SimulationOfLife)
 
+# Add GLTools submodule directory
+#add_subdirectory(GLTools)
+
+# Specify paths to the required frameworks on MacOS (assumes homebrew install)
+set(glfw3_DIR, /opt/homebrew/opt/glfw/lib/cmake/glfw3)
+
 find_package(glfw3 REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(Freetype REQUIRED)
@@ -41,6 +47,5 @@ target_include_directories(SoL PRIVATE GLTools/Controls/include)
 target_include_directories(SoL PRIVATE ${GLFW_INCLUDE_DIRS})
 
 # Link libraries
-target_link_libraries(SoL PRIVATE WorldObjects glfw OpenGL::OpenGL GLEW::GLEW Freetype::Freetype)
-
+target_link_libraries(SoL PRIVATE WorldObjects glfw -framework OpenGL GLEW::GLEW Freetype::Freetype)
 

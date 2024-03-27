@@ -8,3 +8,10 @@ doc/
 
 #vscode 
 .vscode
+
+# CMake
+CMakeCache.txt
+*.cmake
+*/Makefile/
+CMakeFiles/
+
